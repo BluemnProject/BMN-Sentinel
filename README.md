@@ -39,7 +39,7 @@ Make sure the local BluemnCore daemon running is at least version 12.1 (120100)
 
 Clone the Sentinel repo and install Python dependencies.
 
-    $ git clone https://github.com/bluemnpay/sentinel.git && cd sentinel
+    $ git clone github.com/BluemnProject/BMN-Sentinel.git && cd BMN-Sentinel
     $ virtualenv ./venv
     $ ./venv/bin/pip install -r requirements.txt
 
