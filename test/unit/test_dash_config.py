@@ -6,13 +6,13 @@ os.environ['SENTINEL_CONFIG'] = os.path.normpath(os.path.join(os.path.dirname(__
 os.environ['SENTINEL_ENV'] = 'test'
 sys.path.append(os.path.normpath(os.path.join(os.path.dirname(__file__), '../../lib')))
 import config
-from dash_config import DashConfig
+from bluemn_config import BluemnConfig
 
 
 @pytest.fixture
-def dash_conf(**kwargs):
+def bluemn_conf(**kwargs):
     defaults = {
-        'rpcuser': 'dashrpc',
+        'rpcuser': 'bluemnrpc',
         'rpcpassword': 'EwJeV3fZTyTVozdECF627BkBMnNDwQaVLakG3A4wXYyk',
         'rpcport': 29241,
     }
@@ -34,30 +34,30 @@ rpcport={rpcport}
 
 
 def test_get_rpc_creds():
-    dash_config = dash_conf()
-    creds = DashConfig.get_rpc_creds(dash_config, 'testnet')
+    bluemn_config = bluemn_conf()
+    creds = BluemnConfig.get_rpc_creds(bluemn_config, 'testnet')
 
     for key in ('user', 'password', 'port'):
         assert key in creds
-    assert creds.get('user') == 'dashrpc'
+    assert creds.get('user') == 'bluemnrpc'
     assert creds.get('password') == 'EwJeV3fZTyTVozdECF627BkBMnNDwQaVLakG3A4wXYyk'
     assert creds.get('port') == 29241
 
-    dash_config = dash_conf(rpcpassword='s00pers33kr1t', rpcport=8000)
-    creds = DashConfig.get_rpc_creds(dash_config, 'testnet')
+    bluemn_config = bluemn_conf(rpcpassword='s00pers33kr1t', rpcport=8000)
+    creds = BluemnConfig.get_rpc_creds(bluemn_config, 'testnet')
 
     for key in ('user', 'password', 'port'):
         assert key in creds
-    assert creds.get('user') == 'dashrpc'
+    assert creds.get('user') == 'bluemnrpc'
     assert creds.get('password') == 's00pers33kr1t'
     assert creds.get('port') == 8000
 
-    no_port_specified = re.sub('\nrpcport=.*?\n', '\n', dash_conf(), re.M)
-    creds = DashConfig.get_rpc_creds(no_port_specified, 'testnet')
+    no_port_specified = re.sub('\nrpcport=.*?\n', '\n', bluemn_conf(), re.M)
+    creds = BluemnConfig.get_rpc_creds(no_port_specified, 'testnet')
 
     for key in ('user', 'password', 'port'):
         assert key in creds
-    assert creds.get('user') == 'dashrpc'
+    assert creds.get('user') == 'bluemnrpc'
     assert creds.get('password') == 'EwJeV3fZTyTVozdECF627BkBMnNDwQaVLakG3A4wXYyk'
     assert creds.get('port') == 19998
 
@@ -65,7 +65,7 @@ def test_get_rpc_creds():
 def test_slurp_config_file():
     import tempfile
 
-    dash_config = """# basic settings
+    bluemn_config = """# basic settings
 #testnet=1 # TESTNET
 server=1
 printtoconsole=1
@@ -78,7 +78,7 @@ txindex=1 # enable transaction index
 """
 
     with tempfile.NamedTemporaryFile(mode='w') as temp:
-        temp.write(dash_config)
+        temp.write(bluemn_config)
         temp.flush()
-        conf = DashConfig.slurp_config_file(temp.name)
+        conf = BluemnConfig.slurp_config_file(temp.name)
         assert conf == expected_stripped_config

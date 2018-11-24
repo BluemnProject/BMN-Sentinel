@@ -1,9 +1,9 @@
 #!/bin/bash
 set -evx
 
-mkdir ~/.dashcore
+mkdir ~/.bluemncore
 
 # safety check
-if [ ! -f ~/.dashcore/.dash.conf ]; then
-  cp share/dash.conf.example ~/.dashcore/dash.conf
+if [ ! -f ~/.bluemncore/.bluemn.conf ]; then
+  cp share/bluemn.conf.example ~/.bluemncore/bluemn.conf
 fi
